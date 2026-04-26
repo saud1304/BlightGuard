@@ -214,7 +214,7 @@ BlightGuard/
 ## 👨‍💻 Author
 
 **Saud Shabbir Sayyed**
-AI & Full Stack Developer
+
 
 ---
 
