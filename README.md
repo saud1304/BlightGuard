@@ -192,13 +192,15 @@ gcloud functions deploy predict \
 ## 📌 Project Structure
 
 ```
-BlightGuard/
-│
-├── api/                # FastAPI backend
-├── frontend/           # React frontend
-├── training/           # Model training notebooks
-├── models/             # Saved models
-├── gcp/                # Deployment scripts
+Blightguard/
+  │
+  ├── Data_Set/
+    │
+    ├── api/                # FastAPI backend
+    ├── frontend/           # React frontend
+    ├── training/           # Model training notebooks
+    ├── models/             # Saved models
+    ├── gcp/                # Deployment scripts
 ```
 
 ---
