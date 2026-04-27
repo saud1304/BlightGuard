@@ -4,13 +4,30 @@ import numpy as np
 from PIL import Image
 import uvicorn
 from pygments.lexers import data
+from fastapi.middleware.cors import CORSMiddleware
 import tensorflow as tf
+
 
 
 #from tensorflow.python.grappler.item import Item
 #from tensorflow.python.keras.engine.training_v1 import Model
 
 app = FastAPI()
+
+app = FastAPI()
+
+origins = [
+    "https://blightguard-rosy.vercel.app",
+    "https://blight-guard-saud-sayyeds-projects.vercel.app",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 Model = tf.keras.models.load_model("../models/1")
 CLASS_NAMES = ["Early Blight","Late Blight", "Healthy"]
