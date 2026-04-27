@@ -4,4 +4,5 @@ uvicorn
 python-multipart
 pillow
 matplotlib
+pygments
 numpy
