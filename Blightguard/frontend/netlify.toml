@@ -1,4 +1,4 @@
 [build]
-  base = "frontend"
+  base = "Blightguard/frontend"
   command = "npm run build"
   publish = "build"
