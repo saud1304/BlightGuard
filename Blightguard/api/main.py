@@ -17,7 +17,7 @@ app = FastAPI()
 app = FastAPI()
 
 origins = [
-    "https://blightguard-rosy.vercel.app",
+    "https://blightguard-rosy.vercel.app/",
     "https://blight-guard-saud-sayyeds-projects.vercel.app",
 ]
 
