@@ -1,8 +1,8 @@
-tensorflow-cpu==2.15.0
+tensorflow==2.20.0
 fastapi
 uvicorn
 python-multipart
 pillow
 matplotlib
-pygments
 numpy
+pygments

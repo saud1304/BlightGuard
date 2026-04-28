@@ -1,5 +1,4 @@
 from http.client import responses
-
 from fastapi import FastAPI, UploadFile, File
 from io import BytesIO
 import numpy as np
@@ -17,9 +16,10 @@ from starlette import endpoints
 
 app = FastAPI()
 
+
 origins = [
-    "https://blightguard-rosy.vercel.app",
-    "https://blight-guard-saud-sayyeds-projects.vercel.app",
+    "https://blightguard-rosy.vercel.app/",
+    "https://blight-guard-saud-sayyeds-projects.vercel.app/",
 ]
 
 app.add_middleware(
@@ -29,7 +29,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 endpoint = "http://localhost:8501/v1/models/potatoes_model:predict"
 CLASS_NAMES = ["Early Blight","Late Blight", "Healthy"]

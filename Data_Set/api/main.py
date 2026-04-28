@@ -5,8 +5,8 @@ from PIL import Image
 import uvicorn
 from pygments.lexers import data
 from fastapi.middleware.cors import CORSMiddleware
-import tensorflow as tf
 
+import tensorflow as tf
 
 
 #from tensorflow.python.grappler.item import Item
@@ -14,16 +14,14 @@ import tensorflow as tf
 
 app = FastAPI()
 
-app = FastAPI()
-
 origins = [
-    "https://blightguard-rosy.vercel.app/",
+    "https://blightguard-rosy.vercel.app",
     "https://blight-guard-saud-sayyeds-projects.vercel.app",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
