@@ -162,7 +162,7 @@ const sendFile = useCallback(async () => {
     formData.append("file", selectedFile);
     let res = await axios({
       method: "post",
-      url: process.env.REACT_APP_API_URL,
+      url:"https://blightguard-2.onrender.com/predict",
       data: formData,
     });
     if (res.status === 200) {
