@@ -29,9 +29,6 @@ app.add_middleware(
 )
 
 
-import os
-import tensorflow as tf
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, "models", "1")
 
