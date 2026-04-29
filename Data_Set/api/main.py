@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from io import BytesIO
+import os
 import numpy as np
 from PIL import Image
 import uvicorn
@@ -27,7 +28,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-Model = tf.keras.models.load_model("api/models/1.keras")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "models", "1.keras")
+
+Model = tf.keras.models.load_model(model_path)
+
 CLASS_NAMES = ["Early Blight","Late Blight", "Healthy"]
 @app.get("/")
 async def ping():
