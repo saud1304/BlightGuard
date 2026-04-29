@@ -29,9 +29,11 @@ app.add_middleware(
 )
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, "models", "1.keras")
+import os
+import tensorflow as tf
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "models", "1.h5")
 
 Model = tf.keras.models.load_model(model_path, compile=False)
 
