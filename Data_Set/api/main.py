@@ -33,7 +33,7 @@ import os
 import tensorflow as tf
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, "models", "1.h5")
+model_path = os.path.join(BASE_DIR, "models", "1")
 
 Model = tf.keras.models.load_model(model_path)
 
