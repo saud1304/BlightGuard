@@ -115,10 +115,10 @@ Run TF Serving:
 
 ```bash
 docker run -t --rm -p 8501:8501 \
--v C:/Code/potato-disease-classification:/potato-disease-classification \
+-v C:/Code/potato-disease-classification:/app \
 tensorflow/serving \
 --rest_api_port=8501 \
---model_config_file=/potato-disease-classification/models.config
+--model_config_file=/app/models.config
 ```
 
 Run API:
@@ -182,10 +182,24 @@ gcloud functions deploy predict \
 ```
 
 ---
+## 📸 Screenshots
 
-## 📸 Demo
+<p align="center">
+  <b>Home</b><br/>
+  <img src="./screenshots/home.png" width="30%" />
+  
+  <br/><br/>
 
-> Add screenshots of your app here
+  <b>Upload</b><br/>
+  <img src="./screenshots/upload.png" width="30%" />
+  
+  <br/><br/>
+
+  <b>Result</b><br/>
+  <img src="./screenshots/result.png" width="30%" />
+</p>
+
+
 
 ---
 
@@ -197,6 +211,7 @@ Blightguard/
   ├── Data_Set/
     │
     ├── api/                # FastAPI backend
+       ├── models/          # Saved models
     ├── frontend/           # React frontend
     ├── training/           # Model training notebooks
     ├── models/             # Saved models
