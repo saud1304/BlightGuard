@@ -1,54 +1,53 @@
-from fastapi import FastAPI, UploadFile, File
-from io import BytesIO
-import os
-import numpy as np
-from PIL import Image
-import uvicorn
-from pygments.lexers import data
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-
+import uvicorn
+import numpy as np
+from io import BytesIO
+from PIL import Image
 import tensorflow as tf
-
-
-#from tensorflow.python.grappler.item import Item
-#from tensorflow.python.keras.engine.training_v1 import Model
 
 app = FastAPI()
 
 origins = [
-    "https://blightguard-rosy.vercel.app",
-    "https://blight-guard-saud-sayyeds-projects.vercel.app",
+    "http://localhost",
+    "http://localhost:3000",
 ]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-MODEL = tf.keras.models.load_model("./models/1")
+MODEL = tf.saved_model.load("./models/1")
+infer = MODEL.signatures["serving_default"]
 
-CLASS_NAMES = ["Early Blight","Late Blight", "Healthy"]
+CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
+
+
 @app.get("/")
 async def ping():
-    return "Hello"
+    return "Hello, I am alive"
+
 
 def read_file_as_image(data) -> np.ndarray:
-    image = np.array(Image.open(BytesIO(data)))
-    return image
+    image = Image.open(BytesIO(data)).convert("RGB").resize((256, 256))
+    return np.array(image)
+
+
 @app.post("/predict")
-async def predict(file: UploadFile = File(...)
- ):
+async def predict(file: UploadFile = File(...)):
     image = read_file_as_image(await file.read())
 
     img_batch = np.expand_dims(image, 0)
+    img_batch = img_batch.astype("float32") / 255.0
 
-    predictions = Model.predict(img_batch)
+    predictions = list(infer(tf.constant(img_batch)).values())[0].numpy()
 
     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
     confidence = np.max(predictions[0])
+
     return {
         "class": predicted_class,
         "confidence": float(confidence)
