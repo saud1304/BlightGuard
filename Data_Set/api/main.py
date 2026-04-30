@@ -1,7 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-import os
 import numpy as np
 from io import BytesIO
 from PIL import Image
@@ -10,11 +8,13 @@ from tensorflow import keras
 
 app = FastAPI()
 
+# ✅ CORS (fixed - no trailing slash)
 origins = [
-    "https://blightguard-rosy.vercel.app/",
+    "https://blightguard-rosy.vercel.app",
     "http://localhost",
     "http://localhost:3000",
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -23,44 +23,58 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL = keras.layers.TFSMLayer(
-    "./models/1",
-    call_endpoint="serving_default"
-)
+# ✅ Lazy load model (IMPORTANT)
+MODEL = None
+
+def get_model():
+    global MODEL
+    if MODEL is None:
+        MODEL = keras.layers.TFSMLayer(
+            "models/1",  # make sure this path exists in repo
+            call_endpoint="serving_default"
+        )
+    return MODEL
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
 
-
+# ✅ Test route
 @app.get("/")
 async def home():
-    return "Hello, I am alive"
+    return {"message": "API is running"}
 
+# ✅ Debug route (to check model loading)
+@app.get("/test-model")
+def test_model():
+    try:
+        model = get_model()
+        return {"status": "model loaded successfully"}
+    except Exception as e:
+        return {"error": str(e)}
 
+# ✅ Image processing
 def read_file_as_image(data) -> np.ndarray:
     image = Image.open(BytesIO(data)).convert("RGB").resize((256, 256))
     return np.array(image)
 
-
+# ✅ Prediction endpoint
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    image = read_file_as_image(await file.read())
+    try:
+        model = get_model()
 
-    img_batch = np.expand_dims(image, 0).astype("float32")
+        image = read_file_as_image(await file.read())
+        img_batch = np.expand_dims(image, 0).astype("float32")
 
-    predictions = MODEL(img_batch)
-    predictions = list(predictions.values())[0].numpy()
+        predictions = model(img_batch)
+        predictions = list(predictions.values())[0].numpy()
 
-    predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
-    confidence = np.max(predictions[0])
+        predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
+        confidence = np.max(predictions[0])
 
-    return {
-        "class": predicted_class,
-        "confidence": float(confidence)
-    }
+        return {
+            "class": predicted_class,
+            "confidence": float(confidence)
+        }
 
-
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    except Exception as e:
+        return {"error": str(e)}
