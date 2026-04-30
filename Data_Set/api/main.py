@@ -54,8 +54,9 @@ async def predict(file: UploadFile = File(...)):
 
         img_batch = np.expand_dims(image, 0).astype("float32")
         print("STEP 1: Image loaded")
-
-        predictions = MODEL(img_batch)
+        model = get_model()
+        predictions = model(img_batch)
+       
         print("STEP 2: Model ran")
         print("RAW PRED:", predictions)
         predictions = list(predictions.values())[0].numpy()
