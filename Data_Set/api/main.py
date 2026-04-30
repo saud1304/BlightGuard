@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import os
 import numpy as np
 from io import BytesIO
 from PIL import Image
@@ -10,7 +11,7 @@ from tensorflow import keras
 app = FastAPI()
 
 origins = [
-    "https://blightguard-rosy.vercel.app/"
+    "https://blightguard-rosy.vercel.app/",
     "http://localhost",
     "http://localhost:3000",
 ]
@@ -58,5 +59,8 @@ async def predict(file: UploadFile = File(...)):
     }
 
 
+
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000)
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
