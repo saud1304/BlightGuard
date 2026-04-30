@@ -8,7 +8,6 @@ from tensorflow import keras
 
 app = FastAPI()
 
-# ✅ CORS (fixed - no trailing slash)
 origins = [
     "https://blightguard-rosy.vercel.app",
     "http://localhost",
@@ -23,26 +22,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Lazy load model (IMPORTANT)
 MODEL = None
 
 def get_model():
     global MODEL
     if MODEL is None:
         MODEL = keras.layers.TFSMLayer(
-            "models/1",  # make sure this path exists in repo
+            "models/1", 
             call_endpoint="serving_default"
         )
     return MODEL
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
 
-# ✅ Test route
 @app.get("/")
 async def home():
     return {"message": "API is running"}
 
-# ✅ Debug route (to check model loading)
 @app.get("/test-model")
 def test_model():
     try:
@@ -51,12 +47,10 @@ def test_model():
     except Exception as e:
         return {"error": str(e)}
 
-# ✅ Image processing
 def read_file_as_image(data) -> np.ndarray:
     image = Image.open(BytesIO(data)).convert("RGB").resize((256, 256))
     return np.array(image)
 
-# ✅ Prediction endpoint
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     try:
