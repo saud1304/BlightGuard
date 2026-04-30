@@ -6,4 +6,4 @@ pillow
 matplotlib
 numpy
 pygments
-tensorflow-serving-api==2.15.0
+tensorflow-serving-api==2.10.0
