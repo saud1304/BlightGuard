@@ -1,4 +1,4 @@
-tensorflow==2.13.0
+tensorflow==2.8.0
 fastapi
 uvicorn
 python-multipart
@@ -6,4 +6,6 @@ pillow
 matplotlib
 numpy
 pygments
+tensorflow-serving-api==2.8.0
+
 
