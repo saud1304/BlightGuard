@@ -191,12 +191,12 @@ gcloud functions deploy predict \
   <br/><br/>
 
   <b>Upload</b><br/>
-  <img src="./Data_Set/training/upload.png" width="30%" />
+  <img src="./Data_Set/training/upload.png" width="100%" />
   
   <br/><br/>
 
   <b>Result</b><br/>
-  <img src="./Data_Set/training/result.png" width="30%" />
+  <img src="./Data_Set/training/result.png" width="100%" />
 </p>
 
 
