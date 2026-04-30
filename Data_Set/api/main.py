@@ -53,10 +53,12 @@ async def predict(file: UploadFile = File(...)):
         image = read_file_as_image(await file.read())
 
         img_batch = np.expand_dims(image, 0).astype("float32")
+        print("STEP 1: Image loaded")
 
         predictions = MODEL(img_batch)
-        predictions = list(predictions.values())[0].numpy()
+        print("STEP 2: Model ran")
         print("RAW PRED:", predictions)
+        predictions = list(predictions.values())[0].numpy()
 
         predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
         confidence = np.max(predictions[0])
