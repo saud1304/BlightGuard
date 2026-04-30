@@ -27,10 +27,7 @@ MODEL = None
 def get_model():
     global MODEL
     if MODEL is None:
-        MODEL = keras.layers.TFSMLayer(
-            "models/1", 
-            call_endpoint="serving_default"
-        )
+        MODEL = tf.keras.models.load_model("models/1")
     return MODEL
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
