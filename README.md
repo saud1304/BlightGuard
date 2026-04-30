@@ -186,7 +186,7 @@ gcloud functions deploy predict \
 
 <p align="center">
   <b>Home</b><br/>
-  <img src="./Data_Set/training/home.png" width="30%" />
+  <img src="./Data_Set/training/home.png" width="100%" />
   
   <br/><br/>
 
