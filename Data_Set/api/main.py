@@ -10,6 +10,7 @@ from tensorflow import keras
 app = FastAPI()
 
 origins = [
+    "https://blightguard-rosy.vercel.app/"
     "http://localhost",
     "http://localhost:3000",
 ]
