@@ -26,7 +26,7 @@ MODEL = None
 def get_model():
     global MODEL
     if MODEL is None:
-        MODEL = tf.keras.models.load_model("models/1")
+        MODEL = tf.keras.models.load_model("./models/1")
     return MODEL
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
