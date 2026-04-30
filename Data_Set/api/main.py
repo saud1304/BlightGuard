@@ -4,7 +4,6 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import tensorflow as tf
-from tensorflow import keras
 
 app = FastAPI()
 
@@ -39,7 +38,7 @@ async def home():
 @app.get("/test-model")
 def test_model():
     try:
-        model = get_model()
+        get_model()
         return {"status": "model loaded successfully"}
     except Exception as e:
         return {"error": str(e)}
@@ -54,17 +53,22 @@ async def predict(file: UploadFile = File(...)):
         model = get_model()
 
         image = read_file_as_image(await file.read())
+
+        image = image / 255.0
+
         img_batch = np.expand_dims(image, 0).astype("float32")
 
         predictions = model(img_batch)
-        predictions = list(predictions.values())[0].numpy()
+        predictions = predictions.numpy()
 
-        predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
-        confidence = np.max(predictions[0])
+        probabilities = tf.nn.softmax(predictions[0]).numpy()
+
+        predicted_class = CLASS_NAMES[np.argmax(probabilities)]
+        confidence = float(np.max(probabilities))
 
         return {
             "class": predicted_class,
-            "confidence": float(confidence)
+            "confidence": confidence
         }
 
     except Exception as e:
