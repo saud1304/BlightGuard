@@ -54,14 +54,10 @@ async def predict(file: UploadFile = File(...)):
 
         image = read_file_as_image(await file.read())
 
-        image = image / 255.0
-
         img_batch = np.expand_dims(image, 0).astype("float32")
 
         predictions = model(img_batch)
-        predictions = predictions.numpy()
-
-        probabilities = tf.nn.softmax(predictions[0]).numpy()
+        probabilities = predictions.numpy()[0]   
 
         predicted_class = CLASS_NAMES[np.argmax(probabilities)]
         confidence = float(np.max(probabilities))
