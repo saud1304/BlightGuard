@@ -186,17 +186,17 @@ gcloud functions deploy predict \
 
 <p align="center">
   <b>Home</b><br/>
-  <img src="./screenshots/home.png" width="30%" />
+  <img src="./training/home.png" width="30%" />
   
   <br/><br/>
 
   <b>Upload</b><br/>
-  <img src="./screenshots/upload.png" width="30%" />
+  <img src="./training/upload.png" width="30%" />
   
   <br/><br/>
 
   <b>Result</b><br/>
-  <img src="./screenshots/result.png" width="30%" />
+  <img src="./training/result.png" width="30%" />
 </p>
 
 
