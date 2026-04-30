@@ -1,12 +1,7 @@
-tensorflow==2.8.0
 fastapi
 uvicorn
-python-multipart
-pillow
-matplotlib
-numpy
-pygments
+tensorflow==2.13.0
+numpy==1.24.3
 protobuf==3.20.3
-tensorflow-serving-api==2.8.0
-
-
+pillow
+python-multipart
