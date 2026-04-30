@@ -4,6 +4,6 @@ uvicorn
 python-multipart
 pillow
 matplotlib
-numpy
+numpy==1.23.5
 pygments
 tensorflow-serving-api==2.10.0
