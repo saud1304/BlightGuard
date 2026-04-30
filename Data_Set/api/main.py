@@ -56,6 +56,7 @@ async def predict(file: UploadFile = File(...)):
 
         predictions = MODEL(img_batch)
         predictions = list(predictions.values())[0].numpy()
+        print("RAW PRED:", predictions)
 
         predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
         confidence = np.max(predictions[0])
