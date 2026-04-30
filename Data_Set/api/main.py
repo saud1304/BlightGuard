@@ -68,5 +68,6 @@ async def predict(file: UploadFile = File(...)):
             "confidence": float(confidence)
         }
 
-    except Exception as e:
-        return {"error": str(e)}
+   except Exception as e:
+      print("ERROR:", e)
+      raise e
