@@ -5,11 +5,11 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import tensorflow as tf
+from tensorflow import keras
 
 app = FastAPI()
 
 origins = [
-    "https://blightguard-rosy.vercel.app/",
     "http://localhost",
     "http://localhost:3000",
 ]
@@ -21,14 +21,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL = tf.saved_model.load("./models/1")
-infer = MODEL.signatures["serving_default"]
+MODEL = keras.layers.TFSMLayer(
+    "./models/1",
+    call_endpoint="serving_default"
+)
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
 
 
 @app.get("/")
-async def ping():
+async def home():
     return "Hello, I am alive"
 
 
@@ -41,10 +43,10 @@ def read_file_as_image(data) -> np.ndarray:
 async def predict(file: UploadFile = File(...)):
     image = read_file_as_image(await file.read())
 
-    img_batch = np.expand_dims(image, 0)
-    img_batch = img_batch.astype("float32") / 255.0
+    img_batch = np.expand_dims(image, 0).astype("float32")
 
-    predictions = list(infer(tf.constant(img_batch)).values())[0].numpy()
+    predictions = MODEL(img_batch)
+    predictions = list(predictions.values())[0].numpy()
 
     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
     confidence = np.max(predictions[0])
