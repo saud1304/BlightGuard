@@ -49,23 +49,20 @@ def read_file_as_image(data) -> np.ndarray:
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    try:
-        model = get_model()
+    image = read_file_as_image(await file.read())
 
-        image = read_file_as_image(await file.read())
+    img_batch = np.expand_dims(image, 0).astype("float32")
 
-        img_batch = np.expand_dims(image, 0).astype("float32")
+    predictions = MODEL(img_batch)
+    predictions = list(predictions.values())[0].numpy()
 
-        predictions = model(img_batch)
-        probabilities = predictions.numpy()[0]   
+    predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
+    confidence = np.max(predictions[0])
 
-        predicted_class = CLASS_NAMES[np.argmax(probabilities)]
-        confidence = float(np.max(probabilities))
-
-        return {
-            "class": predicted_class,
-            "confidence": confidence
-        }
+    return {
+        "class": predicted_class,
+        "confidence": float(confidence)
+    }
 
     except Exception as e:
         return {"error": str(e)}
