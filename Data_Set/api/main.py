@@ -28,11 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, "models", "1")
-
-Model = tf.keras.models.load_model(model_path)
+MODEL = tf.keras.models.load_model("./models/1")
 
 CLASS_NAMES = ["Early Blight","Late Blight", "Healthy"]
 @app.get("/")
